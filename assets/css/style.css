@@ -1,0 +1,56 @@
+html,
+body {
+  height: 100%;
+  margin: 0px;
+  background-image: url("../images/Weather-Background.jpg");
+}
+
+.full-container {
+  height: 100%;
+  /* background: #f0e68c; */
+}
+
+.full-heigth {
+  height: 100%;
+}
+
+.jumbotron {
+  background-color: black;
+  color: whitesmoke;
+}
+/*
+Used to style the UV index reading
+*/
+.uv-index {
+  border-radius: 5px;
+  background-color: red;
+  color: whitesmoke;
+}
+
+.main-right-col {
+  padding-left: 20px;
+  margin-left: 15px;
+  border: 2px solid grey;
+  margin-right: 10px;
+}
+
+.forecast-card {
+  /* background-color: rgb(50, 78, 172); */
+  background-color: #007bff;
+  color: whitesmoke;
+  margin-right: 2px;
+  max-width: 19.5%;
+}
+
+.forecast-h5 {
+  margin-top: 15px;
+}
+
+.forecast-h4 {
+  margin-bottom: 15px;
+}
+
+.last-updated {
+  font-weight: bold;
+  color: red;
+}

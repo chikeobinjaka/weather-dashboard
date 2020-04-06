@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>Weather Dashboard</title>
+  </head>
+  <body >
+    <div class="container-fluid full-container">
+      <div class="jumbotron row justify-content-center">
+        <h1>Weather Dashboard</h1>
+      </div>
+      <!-- Main row that contains the rest of the page. It will house two columns. The left column
+           will contain the location details like the search input and the list of past cities. The 
+           second column will contain the weather details for the chosen city. If no city is chosen, 
+           the app will choose the current location (https://www.w3schools.com/html/html5_geolocation.asp) -->
+      <div class="main-web-page-row row">
+        <!--Thsi column contains the City location information. Occupies 1/6 of the display-->
+        <div class="col-md-2" style="margin-left: 5px; background-color: lightcyan;">
+          <div class="row" style="margin-left: 2px;">
+            <h4>Search for a City:</h4>
+          </div>
+          <div class="row" style="margin-left: 2px;">
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter city name"
+                aria-label="Recipient's username"
+                aria-describedby="button-addon2"
+              />
+              <div class="input-group-append">
+                <button class="btn btn-primary" style="margin-right: 2px;" type="button" id="button-addon2">
+                  Search
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="list-group">
+            <div class="row" id="city-history-list-group">
+              <!-- when any button is clicked with a valid city name in it, it should be made "active"-->
+              <button type="button" class="list-group-item list-group-item-action active">San Clemente, CA</button>
+              <button type="button" class="list-group-item list-group-item-action disabled">&nbsp;</button>
+              <button type="button" class="list-group-item list-group-item-action disabled">&nbsp;</button>
+              <button type="button" class="list-group-item list-group-item-action disabled">&nbsp;</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md main-right-col">
+          <div class="row justify-content-left" style="margin-top: 10px;">
+            <h3 id="city-name-date-heading">San Clemente (2020-04-05)</h3>
+          </div>
+          <div class="row justify-content-left" style="margin-top: 15px;">
+            <h4>Temperature:&nbsp;<span id="city-temp">58.9</span><span id="temp-type">&#8457;</span></h4>
+          </div>
+          <div class="row justify-content-left" style="margin-top: 15px;">
+            <h4>Humidity:&nbsp;<span id="city-humidity">95</span>%</h4>
+          </div>
+          <div class="row justify-content-left" style="margin-top: 15px;">
+            <h4>Wind Speed:&nbsp;<span id="city-windspeed">2.1</span>MPH</h4>
+          </div>
+          <div class="row justify-content-left">
+            <h4>UV Index:&nbsp;<span class="uv-index" id="city-uv-index">9.49</span></h4>
+          </div>
+          <div class="row justify-content-left" style="margin-top: 20px;">
+            <h3>5-Day Forecast:</h3>
+          </div>
+          <!---->
+          <div class="row row-cols-6 justify-contents-around">
+            <div class="col card card-body forecast-card">
+              <h4 class="forecast-h4">2020/04/06</h4>
+              <img src="http://openweathermap.org/img/wn/11d@2x.png" alt="weather icon" />
+              <h5 class="forecast-h5">Temp:&nbsp;55.9&#8457;</h5>
+              <h5 class="forecast-h5">Humidity:&nbsp;55%</h5>
+            </div>
+            <div class="col card card-body forecast-card">
+              <h4 class="forecast-h4">2020/04/07</h4>
+              <img src="http://openweathermap.org/img/wn/10d@2x.png" alt="weather icon" />
+              <h5 class="forecast-h5">Temp:&nbsp;55.9&#8457;</h5>
+              <h5 class="forecast-h5">Humidity:&nbsp;55%</h5>
+            </div>
+            <div class="col card card-body forecast-card">
+              <h4 class="forecast-h4">2020/04/08</h4>
+              <img src="http://openweathermap.org/img/wn/01d@2x.png" alt="weather icon" />
+              <h5 class="forecast-h5">Temp:&nbsp;55.9&#8457;</h5>
+              <h5 class="forecast-h5">Humidity:&nbsp;55%</h5>
+            </div>
+            <div class="col card card-body forecast-card">
+              <h4 class="forecast-h4">2020/04/09</h4>
+              <img src="http://openweathermap.org/img/wn/50d@2x.png" alt="weather icon" />
+              <h5 class="forecast-h5">Temp:&nbsp;55.9&#8457;</h5>
+              <h5 class="forecast-h5">Humidity:&nbsp;55%</h5>
+            </div>
+            <div class="col card card-body forecast-card">
+              <h4 class="forecast-h4">2020/04/10</h4>
+              <img src="http://openweathermap.org/img/wn/09d@2x.png" alt="weather icon" />
+              <h5 class="forecast-h5">Temp:&nbsp;55.9&#8457;</h5>
+              <h5 class="forecast-h5">Humidity:&nbsp;55%</h5>
+            </div>
+          </div>
+          <div class="row">
+            <p class="card-text"><small >Last updated <span id="last-updated" class="last-updated">3</span> mins ago</small></p>
+        </div>
+          <!---->
+        </div>
+      </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./assets/javascript/script.js"></script>
+  </body>
+</html>
