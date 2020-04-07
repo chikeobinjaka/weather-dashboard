@@ -20,6 +20,15 @@
       <div class="jumbotron row justify-content-center">
         <h1>Weather Dashboard</h1>
       </div>
+      <div class="row justify-content-left">
+        <label class="switch" style="margin-left: 15px;">
+            <!-- checked ==> Fahrenheit -->
+            <input class="switch-input" id="temperature-unit-select" type="checkbox" checked/>
+            <span class="switch-label" data-on="&#8457;" data-off="&#8451;"></span> 
+            <span class="switch-handle"></span> 
+        </label>
+
+      </div>
       <!-- Main row that contains the rest of the page. It will house two columns. The left column
            will contain the location details like the search input and the list of past cities. The 
            second column will contain the weather details for the chosen city. If no city is chosen, 
@@ -38,9 +47,10 @@
                 placeholder="Enter city name"
                 aria-label="Recipient's username"
                 aria-describedby="button-addon2"
+                id="search-city-input"
               />
               <div class="input-group-append">
-                <button class="btn btn-primary" style="margin-right: 2px;" type="button" id="button-addon2">
+                <button id="search-city-button" class="btn btn-primary" style="margin-right: 2px;" type="button" id="button-addon2">
                   Search
                 </button>
               </div>
@@ -49,10 +59,12 @@
           <div class="list-group">
             <div class="row" id="city-history-list-group">
               <!-- when any button is clicked with a valid city name in it, it should be made "active"-->
+              <!--
               <button type="button" class="list-group-item list-group-item-action active">San Clemente, CA</button>
               <button type="button" class="list-group-item list-group-item-action disabled">&nbsp;</button>
               <button type="button" class="list-group-item list-group-item-action disabled">&nbsp;</button>
               <button type="button" class="list-group-item list-group-item-action disabled">&nbsp;</button>
+              -->
             </div>
           </div>
         </div>
@@ -76,7 +88,8 @@
             <h3>5-Day Forecast:</h3>
           </div>
           <!---->
-          <div class="row row-cols-6 justify-contents-around">
+          <div class="row row-cols-6 justify-contents-around" id="forecast-cards-div">
+              <!-- The follwing will be constructed dynamically -->
             <div class="col card card-body forecast-card">
               <h4 class="forecast-h4">2020/04/06</h4>
               <img src="http://openweathermap.org/img/wn/11d@2x.png" alt="weather icon" />
@@ -132,6 +145,7 @@
       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="./assets/javascript/script.js"></script>
   </body>
 </html>
