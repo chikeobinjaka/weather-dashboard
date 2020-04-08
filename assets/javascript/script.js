@@ -1,29 +1,3 @@
-// const DEGREE_FAHRENHEIT = "&#8457;";
-// const DEGREE_CELCIUS = "&#8451;";
-// const DEFAULT_CITY = "San Clemente, California";
-// const OPEN_WEATHER_APPID = "909d9a0c309725bb1dee62d3d268a4ee";
-// var SEARCH_CITY = "San+Clemente";
-// var OPEN_WEATHER_FIVE_DAY_FORECAST_URL = "https://api.openweathermap.org/data/2.5/forecast?q=";
-// var OPEN_WEATHER_CURRENT_URL = "https://api.openweathermap.org/data/2.5/weather?q=";
-// // List of places for which weather has ben searched. San Clemente, CA is default
-// const DEFAULT_CITY_SEARCH_HISTORY = [
-//   "Irvine, US",
-//   "San Clemente, US",
-//   "New York, US",
-//   "London, GB",
-//   "Lagos, NG",
-//   "Abuja, NG",
-//   "Tokyo, JP",
-// ];
-// const DEFAULT_TEMPERATURE_UNIT = "Fahrenheit";
-// const DEFAULT_STORAGE_DATA = {
-//   temperatureUnit: DEFAULT_TEMPERATURE_UNIT,
-//   cities: DEFAULT_CITY_SEARCH_HISTORY,
-//   activeCity: DEFAULT_CITY_SEARCH_HISTORY[0],
-// };
-// const LOCAL_STORAGE_KEY = "WeatherDashboard";
-// // global to hold local storage data
-// var localStorageData;
 /*
  * Returns the jQuery object that represents the forcast card.
  * @param forecastDate Date of forecast in yyyy/mm/dd format
@@ -32,7 +6,7 @@
  * @tempScale Temperature measurement scate in "F" or "C". Default is "C";
  * @humidity Atmospheric humidity in %
  */
-function generateForecastCardJQ(forecastDate, iconId, temperature, tempScale, humidity) {
+function generateForecastCardJQ(forecastDate, iconId, temperature, tempScale, humidity, weatherTitle) {
   if (logIt) {
     console.log("ForecastDate ==> " + forecastDate);
     console.log("IconID       ==> " + iconId);
@@ -52,9 +26,13 @@ function generateForecastCardJQ(forecastDate, iconId, temperature, tempScale, hu
     default:
       tempScale = DEGREE_CELCIUS;
   }
+  var title = "";
+  if (weatherTitle != null && weatherTitle.trim().length != 0) {
+    title = `title="${weatherTitle}"`;
+  }
   var divHTML = `<div class="col card card-body forecast-card">
     <h4 class="forecast-h4">${forecastDate}</h4>
-    <img src="http://openweathermap.org/img/wn/${iconId}@2x.png" alt="weather icon" />
+    <img src="http://openweathermap.org/img/wn/${iconId}@2x.png" alt="weather icon" ${title}/>
     <h5 class="forecast-h5 forecast-temp">Temp:&nbsp;<span data-temp-unit="${tempScale}">${temperature}</span>${tempScale}</h5>
     <h5 class="forecast-h5">Humidity:&nbsp;${humidity}%</h5>
   </div>`;
@@ -193,7 +171,15 @@ function loadForecastWeather(searchCity) {
             temperature = kelvinToCelcius(forecast.main.temp);
           }
           var humidity = forecast.main.humidity;
-          var forecastDiv = generateForecastCardJQ(forecastDate, iconId, temperature, tempScale, humidity);
+          var weatherTitle = forecast.weather[0].description;
+          var forecastDiv = generateForecastCardJQ(
+            forecastDate,
+            iconId,
+            temperature,
+            tempScale,
+            humidity,
+            weatherTitle
+          );
           jqForecastDiv.append(forecastDiv);
         }
       }
@@ -235,10 +221,6 @@ function loadForecastWeather(searchCity) {
           $(".list-group-item-action").removeProp("active");
           var btn = $(`<button type="button" class="list-group-item list-group-item-action active">${cityId}</button>`);
           $("#city-history-list-group").prepend(btn);
-          // btn.on("click",function (event){
-          //   event.preventDefault();
-          //   citySelectActionListener(event, $(this));
-          // });
           // remove the last entry from the cities array in localStorage
           dataStore = loadLocalStorage();
           dataStore.cities.pop();

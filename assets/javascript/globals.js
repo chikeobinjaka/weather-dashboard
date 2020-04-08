@@ -30,4 +30,4 @@ const CITIES_HISTORY_MAX = 7;
 var lastUpdatedInterval;
 var elapsedTime = 0;
 const LAST_UPDATE_INTERVAL_MILLI = 15000;
-var logIt = false;
+var logIt = true;
