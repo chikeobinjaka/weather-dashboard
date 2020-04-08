@@ -15,19 +15,18 @@
     <link rel="stylesheet" href="./assets/css/style.css" />
     <title>Weather Dashboard</title>
   </head>
-  <body >
+  <body>
     <div class="container-fluid full-container">
       <div class="jumbotron row justify-content-center">
         <h1>Weather Dashboard</h1>
       </div>
       <div class="row justify-content-left">
         <label class="switch" style="margin-left: 15px;">
-            <!-- checked ==> Fahrenheit -->
-            <input class="switch-input" id="temperature-unit-select" type="checkbox" checked/>
-            <span class="switch-label" data-on="&#8457;" data-off="&#8451;"></span> 
-            <span class="switch-handle"></span> 
+          <!-- checked ==> Fahrenheit -->
+          <input class="switch-input" id="temperature-unit-select" type="checkbox" checked />
+          <span class="switch-label" data-on="&#8457;" data-off="&#8451;"></span>
+          <span class="switch-handle"></span>
         </label>
-
       </div>
       <!-- Main row that contains the rest of the page. It will house two columns. The left column
            will contain the location details like the search input and the list of past cities. The 
@@ -50,7 +49,13 @@
                 id="search-city-input"
               />
               <div class="input-group-append">
-                <button id="search-city-button" class="btn btn-primary" style="margin-right: 2px;" type="button" id="button-addon2">
+                <button
+                  id="search-city-button"
+                  class="btn btn-primary"
+                  style="margin-right: 2px;"
+                  type="button"
+                  id="button-addon2"
+                >
                   Search
                 </button>
               </div>
@@ -70,26 +75,29 @@
         </div>
         <div class="col-md main-right-col">
           <div class="row justify-content-left" style="margin-top: 10px;">
-            <h3 id="city-name-date-heading">San Clemente (2020-04-05)</h3>
+            <h3 id="city-name-date-heading"></h3>
           </div>
           <div class="row justify-content-left" style="margin-top: 15px;">
-            <h4>Temperature:&nbsp;<span id="city-temp">58.9</span><span id="temp-type">&#8457;</span></h4>
+            <h4>
+              Temperature:&nbsp;<span id="city-temp" data-temp-unit="F"></span><span id="temp-type">&#8457;</span>
+            </h4>
           </div>
           <div class="row justify-content-left" style="margin-top: 15px;">
-            <h4>Humidity:&nbsp;<span id="city-humidity">95</span>%</h4>
+            <h4>Humidity:&nbsp;<span id="city-humidity"></span>%</h4>
           </div>
           <div class="row justify-content-left" style="margin-top: 15px;">
-            <h4>Wind Speed:&nbsp;<span id="city-windspeed">2.1</span>MPH</h4>
+            <h4>Wind Speed:&nbsp;<span id="city-windspeed"></span>MPH</h4>
           </div>
           <div class="row justify-content-left">
-            <h4>UV Index:&nbsp;<span class="uv-index" id="city-uv-index">9.49</span></h4>
+            <h4>UV Index:&nbsp;<span class="uv-index" id="city-uv-index"></span></h4>
           </div>
           <div class="row justify-content-left" style="margin-top: 20px;">
             <h3>5-Day Forecast:</h3>
           </div>
           <!---->
           <div class="row row-cols-6 justify-contents-around" id="forecast-cards-div">
-              <!-- The follwing will be constructed dynamically -->
+            <!-- The follwing will be constructed dynamically -->
+            <!--
             <div class="col card card-body forecast-card">
               <h4 class="forecast-h4">2020/04/06</h4>
               <img src="http://openweathermap.org/img/wn/11d@2x.png" alt="weather icon" />
@@ -120,10 +128,13 @@
               <h5 class="forecast-h5">Temp:&nbsp;55.9&#8457;</h5>
               <h5 class="forecast-h5">Humidity:&nbsp;55%</h5>
             </div>
+            -->
           </div>
           <div class="row">
-            <p class="card-text"><small >Last updated <span id="last-updated" class="last-updated">3</span> mins ago</small></p>
-        </div>
+            <p class="card-text">
+              <small>Last updated <span id="last-updated" class="last-updated">3</span> mins ago</small>
+            </p>
+          </div>
           <!---->
         </div>
       </div>
@@ -146,6 +157,8 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="./assets/javascript/globals.js"></script>
     <script src="./assets/javascript/script.js"></script>
+    <script src="./assets/javascript/eventActionHandlers.js"></script>
   </body>
 </html>
