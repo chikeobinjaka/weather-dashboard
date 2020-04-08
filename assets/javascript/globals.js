@@ -26,4 +26,8 @@ const LOCAL_STORAGE_KEY = "WeatherDashboard";
 var localStorageData;
 //
 // Maximum number of cities to have in the cities history list
-const CITIES_HISTORY_MAX = 10;
+const CITIES_HISTORY_MAX = 7;
+var lastUpdatedInterval;
+var elapsedTime = 0;
+const LAST_UPDATE_INTERVAL_MILLI = 15000;
+var logIt = false;

@@ -33,11 +33,13 @@
  * @humidity Atmospheric humidity in %
  */
 function generateForecastCardJQ(forecastDate, iconId, temperature, tempScale, humidity) {
-  console.log("ForecastDate ==> " + forecastDate);
-  console.log("IconID       ==> " + iconId);
-  console.log("Temperature  ==> " + temperature);
-  console.log("TempScale    ==> " + tempScale);
-  console.log("Humidity     ==> " + humidity);
+  if (logIt) {
+    console.log("ForecastDate ==> " + forecastDate);
+    console.log("IconID       ==> " + iconId);
+    console.log("Temperature  ==> " + temperature);
+    console.log("TempScale    ==> " + tempScale);
+    console.log("Humidity     ==> " + humidity);
+  }
   switch (tempScale) {
     case "F":
     case "f":
@@ -62,7 +64,7 @@ function generateForecastCardJQ(forecastDate, iconId, temperature, tempScale, hu
 $(document).ready(function () {
   // initialize storage information
   localStorageData = loadLocalStorage();
-  console.log(localStorageData);
+  if (logIt) console.log(localStorageData);
   // initialize the UI with the data
   initializeUI();
   loadCurrentWeather();
@@ -88,7 +90,7 @@ function updateRandomUV() {
   // generate random UVI info
   var uvInfo = generateUVInfo();
   var jqUVEl = $("#city-uv-index");
-  //  console.log("UV Index ==> " + uvInfo.uvi + "\nUV Color ==> " + uvInfo.color);
+  if (logIt) console.log("UV Index ==> " + uvInfo.uvi + "\nUV Color ==> " + uvInfo.color);
   jqUVEl.text(uvInfo.uvi);
   jqUVEl.css("background-color", uvInfo.color);
   jqUVEl.css("color", "whitesmoke");
@@ -118,10 +120,11 @@ function loadCurrentWeather(searchCity) {
     },
   }).then(function (response) {
     if (isAjaxError) return;
-    console.log(response);
+    if (logIt) console.log(response);
     // update city header and date
     dateString = formatDate(Date.now(), "-");
-    $("#city-name-date-heading").text(searchCity + " (" + dateString + ")");
+    var location = response.name + ", " + response.sys.country;
+    $("#city-name-date-heading").text(location + " (" + dateString + ")");
     // **************************
     // update the current weather
     val = response.main.temp;
@@ -160,11 +163,11 @@ function loadForecastWeather(searchCity) {
     url: queryURL,
     method: "GET",
   }).then(function (response) {
-    console.log(response);
+    if (logIt) console.log(response);
     // grab every 8th data from the forecast array
     const OneDayInMilli = 23 * 60 * 60 * 1000;
     var forecastDt = Date.now() + OneDayInMilli;
-    console.log("[Now] " + Date.now() + " ==> " + formatDateTime(Date.now()));
+    if (logIt) console.log("[Now] " + Date.now() + " ==> " + formatDateTime(Date.now()));
     if (response.cnt >= 1) {
       // empty the forecast DIV
       var jqForecastDiv = $("#forecast-cards-div");
@@ -177,7 +180,7 @@ function loadForecastWeather(searchCity) {
           forecast = response.list[index - 1];
           forecastDt += OneDayInMilli;
           var forecastTimeMilli = forecast.dt * 1000;
-          console.log("[" + (index - 1) + "] " + dt + " ==> " + formatDateTime(forecastTimeMilli));
+          if (logIt) console.log("[" + (index - 1) + "] " + dt + " ==> " + formatDateTime(forecastTimeMilli));
           // get the forecast card
           var forecastDate = formatDate(forecastTimeMilli, "/");
           var iconId = forecast.weather[0].icon;
@@ -196,16 +199,17 @@ function loadForecastWeather(searchCity) {
       }
       // update active City from response
       var cityId = response.city.name + ", " + response.city.country;
+      if (logIt) console.log(`CityID ==> ${cityId}`);
       var dataStore = loadLocalStorage();
       dataStore.activeCity = cityId;
       updateLocalStorage(dataStore);
       // now search city list to see if cityId is there
       var cityList = $(".list-group-item");
-      console.log(cityList);
+      if (logIt) console.log(cityList);
       var found = false;
       for (let index = 0; index < cityList.length; index++) {
         var cityBtn = cityList[index];
-        console.log("[" + index + "] " + cityBtn.textContent);
+        if (logIt) console.log("[" + index + "] " + cityBtn.textContent);
         if (cityId == cityBtn.textContent) {
           found = true;
           break;
@@ -216,20 +220,61 @@ function loadForecastWeather(searchCity) {
       // limit of how many cities we can include
       if (!found) {
         var len = $("#city-history-list-group").children().length;
-        console.log("Cities History Length ==> " + len);
-        // if (len >= CITIES_HISTORY_MAX) {
-        var cities = $("#city-history-list-group").children();
-        var lastChild = $(".list-group-item-action").last();
-        console.log("Last Child ==> " + lastChild[0]);
-        //lastChild[0].remove();
-        console.log(cities);
-        console.log(cities[len - 1]);
-        //}
+        if (logIt) console.log("Cities History Length ==> " + len);
+        if (len >= CITIES_HISTORY_MAX) {
+          var cities = $("#city-history-list-group").children();
+          var lastChild = $(".list-group-item-action").last();
+          lastChild[0].remove();
+          if (logIt) {
+            console.log("Last Child ==> " + lastChild[0]);
+            console.log(cities);
+            console.log(cities[len - 1]);
+          }
+          // create a new entry for the search history list,
+          // prepend it and select it
+          $(".list-group-item-action").removeProp("active");
+          var btn = $(`<button type="button" class="list-group-item list-group-item-action active">${cityId}</button>`);
+          $("#city-history-list-group").prepend(btn);
+          // btn.on("click",function (event){
+          //   event.preventDefault();
+          //   citySelectActionListener(event, $(this));
+          // });
+          // remove the last entry from the cities array in localStorage
+          dataStore = loadLocalStorage();
+          dataStore.cities.pop();
+          dataStore.cities.unshift(cityId);
+          updateLocalStorage(dataStore);
+          // remove old action listeners on the history buttons
+          $(".list-group-item").off("click");
+          // remove and re-create buttons
+          initializeUI();
+          // put back action listeners
+          $(".list-group-item").on("click", function (event) {
+            event.preventDefault();
+            citySelectActionListener(event, $(this));
+          });
+        }
       }
     }
+    // now update the last updated timer
+    if (logIt) console.log("Executing reset of timer...");
+    resetLastUpdatedIntervalTimer();
   });
 }
 
+function resetLastUpdatedIntervalTimer() {
+  $("#last-updated").text("0.0");
+  if (lastUpdatedInterval != null) {
+    clearInterval(lastUpdatedInterval);
+  }
+  lastUpdatedInterval = setInterval(function () {
+    elapsedTime += LAST_UPDATE_INTERVAL_MILLI;
+    // convert milli to minutes
+    var val = elapsedTime / 60000;
+    if (logIt) console.log(val);
+    $("#last-updated").text(val);
+  }, LAST_UPDATE_INTERVAL_MILLI);
+}
 function kelvinToCelcius(kelvin) {
   if (!Number.isInteger) return NaN;
   return (Number.parseInt(kelvin) - 273.15).toFixed(1);
